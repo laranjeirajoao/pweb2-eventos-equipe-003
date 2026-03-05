@@ -21,6 +21,12 @@ router.get('/:id', (req, res) => {
    res.json(evento);
 });
 
+//Criar eventos
+router.post('/', (req, res) => {
+    const novoEvento = database.inserir(req.body);
+    res.status(201).json(novoEvento);
+});
+
 router.patch("/:id/cancelar", (req, res) => {
    const { id } = req.params
    database.atualizar(id, { ativo: false })
