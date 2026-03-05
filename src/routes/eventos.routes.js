@@ -28,8 +28,10 @@ router.get('/:id', (req, res) => {
 });
 
 router.post("/:id/inscricao", (req, res) => {
-   const { id } = Number(req.params.id)
+   const id = Number(req.params.id)
    const reduz = database.reduzirVaga(id)
+   console.log(reduz);
+
    if (!reduz) {
       return res.status(500).json({ mensagem: "Evento não possui mais vagas disponíveis!" })
    }
