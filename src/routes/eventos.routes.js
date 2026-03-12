@@ -9,9 +9,9 @@ router.get('/', (req, res) => {
    const { vagasMin, modalidade, ativo } = req.query
    let filteredEventos = database.listarTodos();
 
-   if (modalidade && modalidade.toLowerCase() !== "presencial" 
-       && modalidade.toLowerCase() !== "remoto" 
-       && modalidade.toLowerCase() !== "hibrido") {
+   if (modalidade && modalidade.toLowerCase() !== "presencial"
+      && modalidade.toLowerCase() !== "remoto"
+      && modalidade.toLowerCase() !== "hibrido") {
       return res.status(400).json({ mensagem: "Modalidade inválida! Use: presencial, remoto ou hibrido." });
    }
 
@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
    }
 
    if (modalidade) {
-      filteredEventos = filteredEventos.filter(x => x.modalidade === modalidade)
+      filteredEventos = filteredEventos.filter(x => x.modalidade.toLowerCase() === modalidade.toLocaleLowerCase())
    }
 
    // LISTAR APENAS EVENTOS ATIVOS
@@ -45,6 +45,12 @@ router.get('/:id', (req, res) => {
 
 // Criar evento
 router.post('/', (req, res) => {
+   const { modalidade } = req.body
+   if (modalidade && modalidade.toLowerCase() !== "presencial"
+      && modalidade.toLowerCase() !== "remoto"
+      && modalidade.toLowerCase() !== "hibrido") {
+      return res.status(400).json({ mensagem: "Modalidade inválida! Use: presencial, remoto ou hibrido." });
+   }
    const novoEvento = database.inserir(req.body);
    res.status(201).json(novoEvento);
 });
